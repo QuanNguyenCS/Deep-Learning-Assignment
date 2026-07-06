@@ -24,12 +24,12 @@ class MLPClassifier(torch.nn.Module):
         self.net = torch.nn.Sequential(
             torch.nn.Linear(input_dim, hidden_dim1),
             torch.nn.LayerNorm(hidden_dim1),
-            torch.nn.ReLU(),
+            torch.nn.SiLU(),
             torch.nn.Dropout(0.2),
             
             torch.nn.Linear(hidden_dim1, hidden_dim2),
             torch.nn.LayerNorm(hidden_dim2),
-            torch.nn.ReLU(),
+            torch.nn.SiLU(),
             torch.nn.Dropout(0.2),
             
             torch.nn.Linear(hidden_dim2, output_dim),

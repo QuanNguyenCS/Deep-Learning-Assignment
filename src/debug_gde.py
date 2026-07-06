@@ -8,17 +8,33 @@ from pathlib import Path
 from torchvision.datasets import CelebA
 
 class MLPClassifier(torch.nn.Module):
-    def __init__(self, input_dim=512, hidden_dim1=256, hidden_dim2=128, output_dim=40):
+    def __init__(self, input_dim=512, hidden_dim1=256, hidden_dim2=128, output_dim=40, activation='relu'):
         super().__init__()
+        
+        if activation == 'relu':
+            act1 = torch.nn.ReLU()
+            act2 = torch.nn.ReLU()
+        elif activation == 'leaky_relu':
+            act1 = torch.nn.LeakyReLU(0.01)
+            act2 = torch.nn.LeakyReLU(0.01)
+        elif activation == 'elu':
+            act1 = torch.nn.ELU()
+            act2 = torch.nn.ELU()
+        elif activation == 'swish':
+            act1 = torch.nn.SiLU()
+            act2 = torch.nn.SiLU()
+        else:
+            raise ValueError(f"Unknown activation function: {activation}")
+            
         self.net = torch.nn.Sequential(
             torch.nn.Linear(input_dim, hidden_dim1),
             torch.nn.LayerNorm(hidden_dim1),
-            torch.nn.ReLU(),
+            act1,
             torch.nn.Dropout(0.2),
             
             torch.nn.Linear(hidden_dim1, hidden_dim2),
             torch.nn.LayerNorm(hidden_dim2),
-            torch.nn.ReLU(),
+            act2,
             torch.nn.Dropout(0.2),
             
             torch.nn.Linear(hidden_dim2, output_dim),

@@ -110,8 +110,7 @@ Thumbs.db
 Data/
 
 # Pre-computed pytorch embeddings to avoid tracking heavy binary files (~40MB+)
-*.pt
-celeba_test_embeddings.pt
+checkpoints/
 
 # Generated visualization plots
 baseline_retrieval_demo.png
